@@ -621,7 +621,10 @@ Beispiel:
 def AendereName(self, name):
     self.name = name
 
-So wird das Feld name der Klasse mit dem Parameter name überschrieben.
+Self steht in jeder Methodendeklaration als erster Parameter, damit die Methode auf die Instanz zugreifen kann.
+
+Im Gegensatz zu z.B. Java werden Felder in Python nicht deklariert, sondern erstellt, wenn sie zum ersten Mal in einer Methode (meistens __init__) zugewiesen werden.
+Felder sind Klassenattribute, die von allen Instanzen der Klasse geteilt werden, oder Instanzattribute, die nur für eine bestimmte Instanz gelten.
 
 """
 
@@ -629,7 +632,7 @@ So wird das Feld name der Klasse mit dem Parameter name überschrieben.
 class Roboter:
 
     __counter = 0 # private static
-    Gesetze = ("Ich bin ein Klassenattribut", "...")
+    Gesetze = ("Ich bin ein Klassenattribut", "...") # kann von allen Instanzen verwendet werden
     # Aufruf: print(Roboter.Gesetze)
     # print(Roboter.AnzahlRoboter())
 
