@@ -850,7 +850,7 @@ else:
 os.rmdir("myfolder") # nur leere Verzeichnisse
 
 # ===============================================================
-#                   Threads und Locks
+#                   Threads / Locks & Coroutines
 # ===============================================================
 """
 MultiThreading = für GUIs, I/O. Shared memory. Python verwaltet Threading
@@ -858,7 +858,20 @@ Multiprocessing = eigener CPU Kern und Speicherbereich (schneller als Threading)
 
 ACHTUNG: wenn man Threads locked und alle auf einen anderen Thread warten hat man einen Deadlock
 
+Threads:
+- echte OS-Threads
+- laufen parallel bzw. nebenläufig vom Betriebssystem gesteuert
+- du brauchst Synchronisation (Locks etc.)
+
+asyncio (Coroutines):
+- ein Thread
+- keine echte Parallelität
+- Aufgaben wechseln sich kooperativ ab (await)
+- gesteuert vom Event Loop
+
 """
+
+# Beispiel Threading
 import threading
 
 class MyThread(threading.Thread):
@@ -883,6 +896,24 @@ t2.start()
 # t1.join() # warten bis t1 fertig ist
 # if t1.isAlive(): # gibt aus ob der Thread noch existiert
 print("Beende Main")
+
+# Beispiel Coroutines
+import asyncio
+
+async def task(name):
+    print(f"{name} startet")
+    await asyncio.sleep(2)
+    print(f"{name} fertig")
+
+async def main():
+    await asyncio.gather(
+        task("A"),
+        task("B"),
+        task("C")
+    )
+
+asyncio.run(main())
+# hier laufen alle drei Tasks parallel, obwohl nur ein Thread verwendet wird
 
 # ===============================================================
 #                       Eingaben - User Input
