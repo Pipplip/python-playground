@@ -5,6 +5,8 @@ Collection von Tutorials und kleinen Projekten.
 
 Projekte sind unter `/Projekte` und Python Basics in `/basic_details` zu finden
 
+___
+
 ## uv   
 all-in-one tool für Python Projekte:   
 Es enthält:  
@@ -17,7 +19,7 @@ Es enthält:
 pip install uv
 ```
 
-### Workflow: Projekt komplett neu aufsetzen
+### uv Workflow 1: Projekt komplett neu aufsetzen
 
 1. Projekt initialisieren
 ```bash
@@ -109,8 +111,9 @@ git add uv.lock pyproject.toml
 git commit -m "Update dependencies"
 git push
 ```
+___
 
-### Workflow 2: Bestehendes Projekt aus Git klonen
+### uv Workflow 2: Bestehendes Projekt aus Git klonen
 
 1. Repository klonen
 ```bash
@@ -147,6 +150,34 @@ Ein separater Aufruf von uv venv ist in der Regel nicht nötig, da uv sync dies 
 | `uv run -m hund.main`  | Runs a Python Module (src/hund/) with main class                                |
 | `uv list`              | List installed dependencies in the project environment                          |
 
+___
+
+## Anwendung bauen und publishen
+
+#### build
+
+```bash
+uv build
+```
+Einen Build braucht man, wenn:   
+- prüfen möchte, ob ein Paket korrekt gebaut werden kann
+- die erzeugten Dateien lokal testen möchte
+- sie später hochladen möchte
+
+-> erstellt installierbare Python-Pakete   
+Es ensteht ein Verzeichnis `dist/` mit den Dateien:
+```
+dist/
+├── meinprojekt-0.1.0-py3-none-any.whl
+├── meinprojekt-0.1.0.tar.gz
+```
+
+#### publish
+```bash
+uv publish
+```
+mit publish lädt man die zuvor gebauten Dateien (uv build) in ein Paket-Repository hoch.  
+z.B. auf [PyPI](https://pypi.org/) oder AWS Codeartifact Repository.  
 
 ____    
 ## Execute python script (ohne uv)
