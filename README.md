@@ -1,5 +1,5 @@
 Das ist mein Python playground.
-Collection von Tutorials und kleinen Projekten.
+Sammlung von Tutorials und kleinen Projekten.
 
 ## Overview
 
@@ -19,9 +19,16 @@ Es enthält:
 pip install uv
 ```
 
+**Update von uv**
+```bash
+uv self update
+# oder
+pip install --upgrade uv
+```
+
 ### uv Workflow 1: Projekt komplett neu aufsetzen
 
-1. Projekt initialisieren
+#### 1. Projekt initialisieren
 ```bash
 uv init <project-name>
 # z.B. uv init meinprojekt
@@ -58,17 +65,25 @@ dependencies = [
 ]
 ```
 
-2. Virtuelle Umgebung aktivieren
+#### 2. Virtuelle Umgebung aktivieren
 ```bash
 uv venv
 ```
 
 (Optional: Wenn die gewünschte Python-Version noch nicht installiert ist.)
 ```bash
+uv python list # zeigt alle verfügbaren Python-Versionen an
 uv python install 3.12
 ```
 
-3. Projektabhängigkeiten installieren / löschen
+Python-Versionen werden in `~/.uv/python/` installiert.   
+Um eine Python-Version zu deinstallieren:
+```bash
+uv python uninstall <version>
+# z.B. uv python uninstall 3.12 
+```
+
+#### 3. Projektabhängigkeiten installieren / löschen
 ```bash
 uv add <package-name>
 # z.B. uv add requests
@@ -76,8 +91,19 @@ uv add <package-name>
 # Oder entfernen
 uv remove <package-name>
 ```
+Alle Abhängigkeiten werden mit `uv add` und `uv remove` in `uv.lock` automatisch gespeichert.   
+Fügt man eine Abhängigkeit manuell in `pyproject.toml` hinzu, muss man sie anschließend mit `uv sync` installieren und mit `uv lock` aktualisieren:    
+```bash
+uv sync
+uv lock
+```
 
-4. Projekt ausführen
+Um alle Abhängigkeiten anzuzeigen:
+```bash
+uv tree
+```
+
+#### 4. Projekt ausführen
 ```bash
 uv run python <script-name>
 # z.B. uv run python main.py
@@ -85,14 +111,38 @@ uv run python <script-name>
 # Oder Modul ausführen
 uv run -m <module-name>
 # z.B. uv run -m hund.main
+
+# Mit Parameter
+uv run python <script-name> <parameter>
+# z.B. uv run python main.py --help -I <parameter>
 ```
 
-5. Tests ausführen
+#### 5. Tests ausführen
+
+Alle Tests ausführen:   
 ```bash
 uv run pytest
 ```
 
-6. Code prüfen und formatieren
+Einzelne Test-Datei ausführen:
+```bash
+uv run pytest <test-file-name>
+# z.B. uv run pytest test/test_main.py
+```
+
+`-v` für verbose / ausführlicher output:
+```bash
+uv run pytest -v
+```
+
+Einzelner Test oder Klasse einer Test-Datei ausführen:
+```bash
+uv run pytest <test-file-name>::<test-function-name>
+# z.B. uv run pytest test/test_main.py::test_addition
+# z.B. uv run pytest test/test_main.py::TestClassName 
+```
+
+#### 6. Code prüfen und formatieren
 ```bash
 # ruff installieren
 uv add --dev ruff
@@ -102,7 +152,7 @@ uv run ruff check .
 uv run ruff format .
 ```
 
-7. Git commit und push
+#### 7. Git commit und push
 `uv.lock` und `pyproject.toml` werden automatisch aktualisiert, wenn `uv add/remove` ausgeführt wird.      
 Diese Dateien sollten daher immer mit in das Git Repository aufgenommen werden.
 
@@ -115,19 +165,20 @@ ___
 
 ### uv Workflow 2: Bestehendes Projekt aus Git klonen
 
-1. Repository klonen
+#### 1. Repository klonen
 ```bash
 git clone <repository-url>
 cd <repository-name>
 ```
 
-2. Optional: Python-Version installieren (uv erkennt die gewünschte Version aus `.python-version` oder `pyproject.toml`)
+#### 2. Optional: Python-Version installieren (uv erkennt die gewünschte Version aus `.python-version` oder `pyproject.toml`)
 ```bash
+uv python list # zeigt alle verfügbaren Python-Versionen an
 uv python install <version>
 # z.B. uv python install 3.12
 ```
 
-3. Abhängigkeiten installieren
+#### 3. Abhängigkeiten installieren
 ```bash
 uv sync
 ```
