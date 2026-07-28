@@ -150,6 +150,9 @@ uv add --dev ruff
 # Code prüfen und formatieren
 uv run ruff check .
 uv run ruff format .
+
+# direkt beheben
+uv run ruff check . --fix
 ```
 
 #### 7. Git commit und push
