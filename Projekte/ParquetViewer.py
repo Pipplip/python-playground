@@ -123,7 +123,17 @@ class ParquetViewer:
         # Alle Daten anzeigen
         for i, row in enumerate(df.itertuples(index=False)):
             tag = "even" if i % 2 else "odd"
-            self.tree.insert("", "end", values=list(row), tags=(tag,))
+            values = [self.display_value(value) for value in row]
+            self.tree.insert("", "end", values=values, tags=(tag,))
+
+    def display_value(self, value):
+        if isinstance(value, (bytes, bytearray, memoryview)):
+            raw = bytes(value)
+            text = raw.decode("ascii", errors="ignore")
+            text = "".join(char for char in text if char.isprintable())
+            return text if text else raw.hex(" ")
+
+        return value
 
     def sort_by_column(self, column_name):
 
